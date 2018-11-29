@@ -1,0 +1,53 @@
+sudo: required
+
+# Placeholder installs
+before_install:
+  - sudo apt-get install libao-dev
+  - sudo apt-get install libcurl4-openssl-dev
+  - sudo apt-get install -y cmake libgtest-dev valgrind gcovr
+  - sudo apt-get install -y exuberant-ctags doxygen graphviz
+  - sudo pip install cpp-coveralls
+  - sudo pip install -U cpp-coveralls
+  - cd /var/tmp
+  - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
+  - sudo tar xf release-1.7.0.tar.gz
+  - cd googletest-release-1.7.0
+  - sudo cmake -DBUILD_SHARED_LIBS=ON .
+  - sudo make
+  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - cd /var/tmp
+  - sudo wget https://raw.githubusercontent.com/kinow/gtest-tap-listener/master/src/tap.h
+  - sudo cp /var/tmp/tap.h /usr/include/gtest/tap.h
+  - which valgrind
+  - cd $TRAVIS_BUILD_DIR
+
+# Enable C++ support
+language: cpp
+
+# Compiler selection
+compiler:
+  - gcc
+
+# Skip install phase
+install: true
+
+# Build steps
+script:
+  - make clean build
+  - sudo make install
+  - make unit-test
+
+# Run examples
+after_success:
+  - cd $TRAVIS_BUILD_DIR/examples
+  - make
+  - export LD_LIBRARY_PATH=/usr/local/lib/
+  - ./mb_insert_test
+  - ./mb_iterator_test
+  - ./mb_longest_prefix_test
+  - ./mb_lookup_test
+  - ./mb_multi_proc_test
+  - ./mb_remove_test
+  - cd $TRAVIS_BUILD_DIR
+  - coveralls --root src/ -E "./src/unittest/*" -E "./src/test/*"
