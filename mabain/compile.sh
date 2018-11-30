@@ -1,10 +1,7 @@
 #!/bin/bash
 make build
-sudo make install
-sudo make clean
-sudo make build
-sudo make install
+MABAIN_INSTALL_DIR=~/mabain make install
 cd ./examples
-make
+MABAIN_INSTALL_DIR=~/mabain make
 mkdir ./tmp_dir  
 
