@@ -35,25 +35,25 @@ dependencies/libcds-2.3.2: | dependencies/libcds-2.3.2.tar.gz
 	tar xzvf dependencies/libcds-2.3.2.tar.gz -C dependencies
 
 dependencies/libcds-2.3.2.tar.gz: dependencies
-	wget -O $@ https://github.com/khizmax/libcds/archive/v2.3.2.tar.gz
+	#wget -O $@ https://github.com/khizmax/libcds/archive/v2.3.2.tar.gz
 
 
 dependencies/rapidjson-1.1.0: | dependencies/rapidjson-1.1.0.tar.gz
 	tar xzvf dependencies/rapidjson-1.1.0.tar.gz -C dependencies
 
 dependencies/rapidjson-1.1.0.tar.gz: dependencies
-	wget -O $@ https://github.com/Tencent/rapidjson/archive/v1.1.0.tar.gz
+	#wget -O $@ https://github.com/Tencent/rapidjson/archive/v1.1.0.tar.gz
 
 
 dependencies/websocketpp-0.7.0: | dependencies/websocketpp-0.7.0.tar.gz
 	tar xzvf dependencies/websocketpp-0.7.0.tar.gz -C dependencies
 
 dependencies/websocketpp-0.7.0.tar.gz: dependencies
-	wget -O $@ https://github.com/zaphoyd/websocketpp/archive/0.7.0.tar.gz
+	#wget -O $@ https://github.com/zaphoyd/websocketpp/archive/0.7.0.tar.gz
 
 
 dependencies:
 	mkdir dependencies
 
 clean:
-	rm -rf demo dependencies
+	rm -rf demo dependencies/libcds-2.3.2 dependencies/rapidjson-1.1.0 dependencies/websocketpp-0.7.0     #dependencies
