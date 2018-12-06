@@ -23,7 +23,7 @@ demo: demo.cpp ../gdax-orderbook.hpp \
       | dependencies/libcds-2.3.2/build-release/bin/libcds.so \
         dependencies/rapidjson-1.1.0 \
         dependencies/websocketpp-0.7.0
-	g++ demo.cpp -std=c++11 -o demo $(INCDIRS) -L $(CDSLIBDIR) $(LIBS)
+	clang++ demo.cpp -std=c++11 -o demo $(INCDIRS) -L $(CDSLIBDIR) $(LIBS)
 
 dependencies/libcds-2.3.2/build-release/bin/libcds.so: \
 		| dependencies/libcds-2.3.2
@@ -53,7 +53,7 @@ dependencies/websocketpp-0.7.0.tar.gz: dependencies
 
 
 dependencies:
-	mkdir dependencies
+	#mkdir dependencies
 
 clean:
 	rm -rf demo dependencies/libcds-2.3.2.tar.gz dependencies/rapidjson-1.1.0.tar.gz dependencies/websocketpp-0.7.0.tar.gz     #dependencies

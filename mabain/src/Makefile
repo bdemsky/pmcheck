@@ -1,4 +1,4 @@
-CPP=g++
+CPP=clang++
 TARGET=libmabain.so
 
 all: $(TARGET)

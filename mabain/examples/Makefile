@@ -2,7 +2,7 @@ ifndef MABAIN_INSTALL_DIR
 MABAIN_INSTALL_DIR=/usr/local
 endif
 
-CPP=g++
+CPP=clang++
 
 all: mb_insert_test mb_lookup_test mb_longest_prefix_test \
 	mb_remove_test mb_iterator_test mb_multi_proc_test \

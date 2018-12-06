@@ -1,4 +1,4 @@
-CPP=g++
+CPP=clang++
 
 all: mbc
 
