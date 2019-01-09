@@ -5,6 +5,7 @@
 #include <future>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include <cds/container/skip_list_map_hp.h>
 #include <cds/gc/hp.h>
@@ -53,7 +54,8 @@ public:
         if (cds::threading::Manager::isThreadAttached() == false)
             cds::threading::Manager::attachThread();
     }
-
+	//std::ofstream myfile;
+	std::ifstream myfile;
     GDAXOrderBook(std::string const& product = "BTC-USD")
         : m_cdsGarbageCollector(67*2),
             // per SkipListMap doc, 67 hazard pointers per instance
@@ -67,6 +69,8 @@ public:
         ensureThreadAttached();
         m_bookInitialized.get_future().wait();
     }
+    
+   
 
     using Price = unsigned int; // cents
     using Size = double;
@@ -83,7 +87,7 @@ public:
     bids_map_t bids;
     offers_map_t offers;
 
-    ~GDAXOrderBook() { m_client.stop(); }
+    ~GDAXOrderBook() { m_client.stop(); myfile.close(); }
 
 private:
     struct websocketppConfig
@@ -124,6 +128,8 @@ private:
                 websocketpp::log::elevel::fatal);
 
             m_client.init_asio();
+
+	    
 
             m_client.set_tls_init_handler(
                 [](websocketpp::connection_hdl)
@@ -167,7 +173,16 @@ private:
                 [this, &json] (websocketpp::connection_hdl,
                                websocketppConfig::message_type::ptr msg)
                 {
-                    json.Parse(msg->get_payload().c_str());
+
+		/*if(!myfile.is_open())
+			myfile.open("example.txt");
+		if(myfile.is_open())
+		  {
+		    myfile <<msg->get_payload().c_str()<<std::endl;
+		  }
+		  else std::cout << "Unable to open file";*/
+
+			json.Parse(msg->get_payload().c_str());
                     const char *const type = json["type"].GetString();
                     if ( strcmp(type, "l2update") == 0 )
                     {
@@ -180,18 +195,41 @@ private:
                 });
 
             websocketpp::lib::error_code errorCode;
-            auto connection =
-                m_client.get_connection("wss://ws-feed.gdax.com", errorCode);
+
+
+	    if(!myfile.is_open())
+		myfile.open("example.txt");
+	    std::string line;
+	    while ( std::getline(myfile,line) )
+	    {
+		    json.Parse(line.c_str());
+	            const char *const type = json["type"].GetString();
+	            if ( strcmp(type, "l2update") == 0 )
+	            {
+	                processUpdates(json, bids, offers);
+	            }
+	            else if ( strcmp(type, "snapshot") == 0 )
+	            {
+	                processSnapshot(json, bids, offers, m_bookInitialized);
+	            }
+	    }
+
+         /*   auto connection =
+                m_client.get_connection("ws://fsdf.sdfj", errorCode);
             if (errorCode) {
                 std::cerr << "failed websocketclient_t::get_connection(): " <<
                     errorCode.message() << std::endl;
             }
-
+	
             m_client.connect(connection);
 
-            m_client.run();
+            m_client.run();*/
+	    
         } catch (websocketpp::exception const & e) {
             std::cerr << "handleUpdates() failed: " << e.what() << std::endl;
+	  
+		   
+		  
         }
     }
 
