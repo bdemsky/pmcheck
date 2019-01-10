@@ -215,7 +215,7 @@ private:
 	    }
 
          /*   auto connection =
-                m_client.get_connection("ws://fsdf.sdfj", errorCode);
+                m_client.get_connection("wss://ws-feed.gdax.com", errorCode);
             if (errorCode) {
                 std::cerr << "failed websocketclient_t::get_connection(): " <<
                     errorCode.message() << std::endl;
