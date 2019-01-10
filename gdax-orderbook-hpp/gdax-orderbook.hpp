@@ -16,6 +16,7 @@
 #include <websocketpp/client.hpp>
 #include <websocketpp/concurrency/none.hpp>
 #include <websocketpp/config/asio_client.hpp>
+#define FILENAME "example90.txt"
 
 /**
  * A copy of the GDAX order book for the currency pair product given during
@@ -175,7 +176,7 @@ private:
                 {
 
 		/*if(!myfile.is_open())
-			myfile.open("example.txt");
+			myfile.open(FILENAME);
 		if(myfile.is_open())
 		  {
 		    myfile <<msg->get_payload().c_str()<<std::endl;
@@ -198,7 +199,7 @@ private:
 
 
 	    if(!myfile.is_open())
-		myfile.open("example.txt");
+		myfile.open(FILENAME);
 	    std::string line;
 	    while ( std::getline(myfile,line) )
 	    {
