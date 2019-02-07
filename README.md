@@ -12,3 +12,9 @@ Corresponding command for Ubuntu is included for convenience.
 
 4. g++ Compiler that supports C++11
 -- sudo apt-get install g++
+
+5. packages for Silo
+
+sudo apt-get install libdb++-dev
+sudo apt-get install libaio-dev
+sudo apt-get install libjemalloc-dev
