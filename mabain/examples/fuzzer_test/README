@@ -1,3 +1,0 @@
-1. export the following library path and then run the binaries
-
-export LD_LIBRARY_PATH=/scratch/random-fuzzer

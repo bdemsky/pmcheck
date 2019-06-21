@@ -3,7 +3,7 @@ TARGET=libmabain.so
 
 all: $(TARGET)
 
-CFLAGS  = -I. -I.. -Iutil -Wall -Werror -c -Wwrite-strings -Wsign-compare -Wcast-align -Wformat-security -fdiagnostics-show-option
+CFLAGS  = -Xclang -load -Xclang /scratch/llvm-project/build/lib/libCDSPass.so -I. -I.. -Iutil -Wall -Werror -c -Wwrite-strings -Wsign-compare -Wcast-align -Wformat-security -fdiagnostics-show-option
 CFLAGS += -g -ggdb -fPIC -O2 -std=c++11
 CFLAGS += -D__SHM_LOCK__ -D__LOCK_FREE__ -D__SHM_QUEUE__
 LDFLAGS = -lpthread

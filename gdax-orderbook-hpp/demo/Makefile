@@ -23,13 +23,13 @@ demo: demo.cpp ../gdax-orderbook.hpp \
       | dependencies/libcds-2.3.2/build-release/bin/libcds.so \
         dependencies/rapidjson-1.1.0 \
         dependencies/websocketpp-0.7.0
-	./clang++ demo.cpp -std=c++11 -o demo $(INCDIRS) $(LIBS) -L $(CDSLIBDIR)
+	../../clang++ demo.cpp -std=c++11 -o demo $(INCDIRS) $(LIBS) -L $(CDSLIBDIR)
 
 dependencies/libcds-2.3.2/build-release/bin/libcds.so: \
 		| dependencies/libcds-2.3.2
 	cd dependencies/libcds-2.3.2 ; if [ ! -d build-release ]; then mkdir build-release; fi
-	cd dependencies/libcds-2.3.2/build-release ; export PATH=`pwd`:$(PATH); CC=clang CXX=clang++ cmake -DCMAKE\_BUILD_TYPE=RELEASE ../
-	cd dependencies/libcds-2.3.2/build-release ; export PATH=`pwd`:$(PATH); make -j4
+	cd dependencies/libcds-2.3.2/build-release ; export PATH=`pwd`/../..:$(PATH); CC=clang CXX=clang++ cmake -DCMAKE\_BUILD_TYPE=RELEASE ../
+	cd dependencies/libcds-2.3.2/build-release ; export PATH=`pwd`/../..:$(PATH); make -j4
 
 clean:
 	rm -rf demo dependencies/libcds-2.3.2/build-release
