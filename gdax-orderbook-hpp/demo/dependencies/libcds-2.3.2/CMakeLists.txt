@@ -110,6 +110,10 @@ endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     string(REGEX MATCHALL "-std=[^ ]+" cxx_std_found ${CMAKE_CXX_FLAGS} " dummy@rg")
+
+    # compile with CDSPass
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -load -Xclang /scratch/llvm/build/lib/libCDSPass.so -O1")
+
     if(cxx_std_found)
         message("C++ std: ${cxx_std_found}")
     else()
