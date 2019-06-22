@@ -10,7 +10,7 @@ IRIS_TEST2_OBJS = $(IRIS_OBJS) test2.o
 PROGRAM = libiris.so
 #PROGRAM = main
 #compiler
-CC = g++
+CC = ../clang++
 
 CACHELINE_SIZE =
 OS := $(shell uname)

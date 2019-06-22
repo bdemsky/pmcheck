@@ -7,8 +7,8 @@
 #include <sslfqueue.h>
 #include <define.h>
 
-#include <iris/level_logger.h>
-#include <iris/file_writer.h>
+#include <level_logger.h>
+#include <file_writer.h>
 
 iris::file_writer writer("./log.txt");
 // this creates a logging thread
