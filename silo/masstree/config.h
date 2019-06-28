@@ -14,10 +14,10 @@
 /* #undef ENABLE_ASSERTIONS */
 
 /* Define to enable invariant assertions. */
-#define ENABLE_INVARIANTS 1
+#define ENABLE_INVARIANTS 0
 
 /* Define to enable precondition assertions. */
-#define ENABLE_PRECONDITIONS 1
+#define ENABLE_PRECONDITIONS 0
 
 /* Define to 1 if you have the `clock_gettime' function. */
 #define HAVE_CLOCK_GETTIME 1

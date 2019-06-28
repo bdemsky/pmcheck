@@ -1,7 +1,7 @@
 AR = ar
 CC = gcc
-CXX = g++ -std=gnu++0x
-CFLAGS = -g -W -Wall -O3
+CXX = g++
+CFLAGS = -g -O3
 DEPSDIR := .deps
 DEPCFLAGS = -MD -MF $(DEPSDIR)/$*.d -MP
 ifeq ($(strip $(MEMMGR)), )
@@ -73,7 +73,7 @@ configure config.h.in: configure.ac
 	touch config.h.in
 
 config.status: configure
-	./configure  '--enable-max-key-len=1024' '--disable-assertions' '--enable-invariants' '--enable-preconditions' '--with-malloc=jemalloc'
+	./configure  '--enable-max-key-len=1024' '--disable-assertions' '--disable-invariants' '--disable-preconditions' '--with-malloc=jemalloc'
 
 $(DEPSDIR)/stamp:
 	mkdir -p $(DEPSDIR)

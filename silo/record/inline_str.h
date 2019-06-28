@@ -15,7 +15,7 @@
 template <typename IntSizeType, unsigned int N>
 class inline_str_base {
   // XXX: argh...
-  template <typename T, bool DoCompress> friend class serializer;
+  template <typename T, bool DoCompress> friend struct serializer;
 public:
 
   inline_str_base() : sz(0) {}
@@ -174,7 +174,7 @@ public:
 template <unsigned int N, char FillChar = ' '>
 class inline_str_fixed {
   // XXX: argh...
-  template <typename T, bool DoCompress> friend class serializer;
+  template <typename T, bool DoCompress> friend struct serializer;
 public:
   inline_str_fixed()
   {

@@ -396,12 +396,12 @@ main(int argc, char **argv)
   }
 
   vector<string> bench_toks = split_ws(bench_opts);
-  int argc = 1 + bench_toks.size();
-  char *argv[argc];
-  argv[0] = (char *) bench_type.c_str();
+  int argc2 = 1 + bench_toks.size();
+  char *argv2[argc];
+  argv2[0] = (char *) bench_type.c_str();
   for (size_t i = 1; i <= bench_toks.size(); i++)
-    argv[i] = (char *) bench_toks[i - 1].c_str();
-  test_fn(db, argc, argv);
+    argv2[i] = (char *) bench_toks[i - 1].c_str();
+  test_fn(db, argc2, argv2);
   delete db;
   return 0;
 }

@@ -1,0 +1,3 @@
+#/bin/bash
+
+/usr/local/bin/clang++ -Xclang -load -Xclang /scratch/llvm-project/build/lib/libCDSPass.so -L/scratch/fuzzer/random-fuzzer -lmodel -Wno-unused-command-line-argument -Wno-address-of-packed-member -Wno-mismatched-tags -Wno-unused-private-field -Wno-constant-conversion -Wno-null-dereference $@
