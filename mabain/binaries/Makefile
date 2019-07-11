@@ -1,4 +1,4 @@
-CPP=clang++
+CPP=../../clang++
 
 all: mbc
 
