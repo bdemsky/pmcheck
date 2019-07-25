@@ -1,0 +1,13 @@
+diff --git a/silo/ticker.h b/silo/ticker.h
+index 8277fd1..8096a71 100644
+--- a/silo/ticker.h
++++ b/silo/ticker.h
+@@ -28,7 +28,7 @@ public:
+   inline uint64_t
+   global_current_tick() const
+   {
+-    return current_tick_.load(std::memory_order_acquire);
++    return current_tick_.load();
+   }
+ 
+   inline uint64_t
