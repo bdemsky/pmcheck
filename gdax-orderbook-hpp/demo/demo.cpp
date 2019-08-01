@@ -6,10 +6,10 @@
 
 void printBestBidAndOffer(GDAXOrderBook & book)
 {
-    std::cout << "current best bid: Ξ" << book.bids.begin()->second << " @ $"
-                               << book.bids.begin()->first/100.0 << "/Ξ ; ";
-    std::cout << "current best offer: Ξ" << book.offers.begin()->second << " @ $"
-                                 << book.offers.begin()->first/100.0 << "/Ξ"
+    std::cout << "current best bid: " << book.bids.begin()->second << " @ $"
+                               << book.bids.begin()->first/100.0 << " ; ";
+    std::cout << "current best offer: " << book.offers.begin()->second << " @ $"
+                                 << book.offers.begin()->first/100.0 << " ; "
                                  << std::endl;
 }
 
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     for ( auto bucket : histogram ) bucket = 0;
 
     size_t numThreads = 5;
-    secondsToSleep = 90;
+    secondsToSleep = 10;
     std::cout << "running for " << secondsToSleep << " seconds, with " <<
         numThreads << " threads constantly iterating over the whole order "
         "book." << std::endl;
@@ -60,13 +60,12 @@ int main(int argc, char* argv[]) {
 
                     finish = std::chrono::steady_clock::now();
 
-                    histogram[
-                        static_cast<size_t>(
+		    int index =                         static_cast<size_t>(
                             std::chrono::duration<double, std::milli>(
                                 std::chrono::steady_clock::now() - start
-                            ).count()/5
-                        )
-                    ]++;
+								      ).count()/500);
+
+			    histogram[index]++;
                 }
             }));
         }
@@ -83,10 +82,10 @@ int main(int argc, char* argv[]) {
             size_t countOfBiggestBucket = 0;
             for ( size_t & i : histogram )
             {
-                countOfBiggestBucket = std::max(i, countOfBiggestBucket);
+	      countOfBiggestBucket = std::max(i, countOfBiggestBucket);
             }
-            return countOfBiggestBucket;
-        }()/68; // 80 column display, minus chars used for row headers, =68
+            return (double)countOfBiggestBucket;
+        }()/68.0; // 80 column display, minus chars used for row headers, =68
     std::cout << "histogram of times to iterate over the whole book:" << std::endl;
     for ( int i=0 ; i < sizeof(histogram)/sizeof(histogram[0]) ; ++i )
     {
