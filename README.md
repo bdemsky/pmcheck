@@ -31,3 +31,15 @@ paths for your system.
 
 7.  Each benchmark contains a script compile.sh to build the benchmark
 and run.sh to run the benchmark.
+
+Acknowledgments
+---------------
+
+This material is based upon work supported by the National Science
+Foundation under Grant Numbers 1740210 and 1319786 and Google Research
+awards.
+
+Any opinions, findings, and conclusions or recommendations expressed
+in this material are those of the author(s) and do not necessarily
+reflect the views of the National Science Foundation.
+
