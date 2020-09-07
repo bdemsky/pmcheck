@@ -1,0 +1,36 @@
+diff --git a/mabain/src/async_writer.cpp b/mabain/src/async_writer.cpp
+index 1f35d54..0c3183a 100644
+--- a/mabain/src/async_writer.cpp
++++ b/mabain/src/async_writer.cpp
+@@ -135,6 +135,21 @@ int AsyncWriter::StopAsyncThread()
+     }
+ #endif
+ 
++    while (true) {
++        bool finished = true;
++        for(int i = 0; i < header->async_queue_size; i++)
++        {
++            AsyncNode *node_ptr = &queue[i % header->async_queue_size];
++            if (node_ptr->type == MABAIN_ASYNC_TYPE_ADD)
++                finished = false;
++        }
++
++        if (finished)
++            break;
++        else
++            nanosleep((const struct timespec[]){{0, 10L}}, NULL);
++    }
++
+     stop_processing = true;
+
+
+== Description ==
+When the main thread opens an instance of the mabain database with the ASYNC_WRITER_MODE, it launches a second thread executing "AsyncWriter::async_writer_thread".  This function is an infinite while loop in which thread 2 keeps popping nodes from a so called "shm_queue" and inserting nodes into the database.
+
+Then the main thread launches four threads (thread 3, 4, 5, and 6) to "insert" keys into the database.  These four threads actually only push keys into the shm_queue, instead of inserting directly into the database. 
+
+The main thread is blocked until thread 3, 4, 5, and 6 join.  Right after they join, (i.e. all keys have been pushed into the shm_queue), the main thread closes the database and tells thread 2 to stop processing.  The problem is when thread 2 stops, some keys may still be left in the shm_queue, and have not been inserted into the database. 
+
+The newer version of mabain (last updated on July 31, 2019, with commit hash 0c40e9393d4e3b337d6e20f458ff6d5ee67c174c) also has this bug. 
+
+For the newer version, when threads 3, 4, 5, and 6 try to insert a key into the database, they did attempt to insert this key directly into the database in the first place (with the protection of a std::timed_mutex).  If this attempt fails (for example when timed_mutex::try_lock_for times out), then they will push the key into the shm_queue, which may trigger the old bug.  
