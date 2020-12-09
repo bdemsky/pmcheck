@@ -1,7 +1,7 @@
 #mabain Makefile
 
 ifndef MABAIN_INSTALL_DIR
-MABAIN_INSTALL_DIR=/usr/local
+MABAIN_INSTALL_DIR=./src
 endif
 
 build:
