@@ -1,6 +1,4 @@
 #!/bin/bash
-export PATH=`pwd`/..:$PATH
-source ../run
-MODE=perf CHECK_INVARIANTS=1 make -j
-MODE=perf CHECK_INVARIANTS=1 make -j dbtest
 
+#MODE=perf CHECK_INVARIANTS=0 make -j
+MODE=perf CHECK_INVARIANTS=0 USE_MALLOC_MODE=0 make -j dbtest 

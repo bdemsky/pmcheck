@@ -30,7 +30,9 @@ thread_logqueue::thread_logqueue(thread_logqueue *head, size_t queue_size, size_
         p = head->next.load(std::memory_order_acquire);
         this->next.store(p, std::memory_order_release);
         // head might have been modified or deleted cas until this is inserted
-        if (head->next.compare_exchange_weak(p, this, std::memory_order_release)) {
+        // Use seq_cst ordering is a temporary fix.  C11tester did not implement pipe (used in notifier.cpp) so that
+        // writing to/reading from a pipe establish a happens-before relation
+        if (head->next.compare_exchange_weak(p, this, std::memory_order_seq_cst /*std::memory_order_release*/)) {
             return;
         }
     } while (true);
