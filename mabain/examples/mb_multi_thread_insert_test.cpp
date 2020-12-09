@@ -31,7 +31,7 @@ using namespace mabain;
 static int max_key = 1000000;
 static std::atomic<int> write_index;
 static bool stop_processing = false;
-static std::string mbdir = "/var/tmp/mabain_test/";
+static std::string mbdir = "./multi_test/";
 
 static void* insert_thread(void *arg)
 {
@@ -57,7 +57,7 @@ static void* insert_thread(void *arg)
     return NULL;
 }
 
-static void SetTestStatus(bool success)
+void SetTestStatus(bool success)
 {
     std::string cmd;
     if(success) {
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         std::cout << "Setting number of keys to be " << max_key << "\n";
     }
 
-    SetTestStatus(false);
+//    SetTestStatus(false);
     mabain::DB::SetLogFile(mbdir + "/mabain.log");
 
     write_index.store(0, std::memory_order_release);
@@ -121,10 +121,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    while(!stop_processing) {
-        usleep(5);
-    }
-
     for(int i = 0; i < nthread; i++) {
         pthread_join(pid[i], NULL);
     }
@@ -135,6 +131,6 @@ int main(int argc, char *argv[])
     Lookup();
 
     mabain::DB::CloseLogFile();
-    SetTestStatus(true);
+//    SetTestStatus(true);
     return 0;
 }

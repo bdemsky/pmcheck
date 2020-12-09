@@ -8,31 +8,24 @@
 
 #include "deque.h"
 
-#define ITERATION 1
-
 Deque *q;
 int a;
 int b;
 int c;
 
 static void task(void * param) {
-	for (int i = 0; i < ITERATION; i++)
-		a=steal(q);
+	a=steal(q);
 }
 
 int user_main(int argc, char **argv)
 {
 	q=create();
 	std::thread t(task, (void *)0);
-
-	for (int i = 0; i < ITERATION; i++) {
-		push(q, 1);
-		push(q, 2);
-		push(q, 4);
-		b=take(q);
-		c=take(q);
-	}
-
+	push(q, 1);
+	push(q, 2);
+	push(q, 4);
+	b=take(q);
+	c=take(q);
 	t.join();
 
 	bool correct=true;

@@ -1,4 +1,4 @@
-CC=gcc
+CC=../../../gcc
 CFLAGS=-I. -std=c99 -Wall -W -Wundef -Wno-implicit-function-declaration
 
 OS := $(shell uname)

@@ -16,7 +16,7 @@ iris::level_logger g_log(&writer, iris::TRACE);
 
 
 using namespace iris;
-#define ITERATIONS (int)1e7
+#define ITERATIONS (int) 1000000
 lfringbuffer rbuf(1024);
 struct buffer_t {
     char * b;
