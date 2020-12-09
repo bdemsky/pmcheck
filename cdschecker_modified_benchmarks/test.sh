@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EXE=$1
-TOTAL_RUN=5 #00
+TOTAL_RUN=500
 CDSLIB="/scratch/fuzzer/random-fuzzer"
 export LD_LIBRARY_PATH=${CDSLIB}
 export C11TESTER='-x1'
@@ -16,7 +16,7 @@ for i in `seq 1 1 $TOTAL_RUN` ; do
 #  time ${TASKSET} $EXE &> $ERROR_FILE
 #  OUTPUT=$(< $ERROR_FILE)
 
-  OUTPUT="$(/usr/bin/time -f "time: %U %S" $EXE -x1 2>&1)"
+  OUTPUT="$(/usr/bin/time -f "time: %U %S" $EXE 2>&1)"
   RACE="$(echo "$OUTPUT" | grep "race")"
   if [ -n "$RACE" ] ; then
     ((++COUNT_DATA_RACE))
