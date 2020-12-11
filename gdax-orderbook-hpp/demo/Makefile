@@ -13,11 +13,11 @@ LIBS += -lssl # needed for websocketpp's TLS support (req'd by GDAX)
 LIBS += -lcrypto # needed for websocketpp's TLS support (req'd by GDAX)
 LIBS += -lcds
 
-test: demo
-	LD_LIBRARY_PATH=$(CDSLIBDIR) ./demo
+#test: demo
+#	LD_LIBRARY_PATH=$(CDSLIBDIR) ./demo
 
-debug: demo
-	LD_LIBRARY_PATH=$(CDSLIBDIR) gdb ./demo
+#debug: demo
+#	LD_LIBRARY_PATH=$(CDSLIBDIR) gdb ./demo
 
 demo: demo.cpp ../gdax-orderbook.hpp \
       | dependencies/libcds-2.3.2/build-release/bin/libcds.so \
