@@ -6,8 +6,8 @@
 
 #include "gdax-orderbook.hpp"
 
-#define FACTOR 125
-#define HIST_SIZE 60
+#define FACTOR 500
+#define HIST_SIZE 40
 
 std::atomic<bool> stop;
 
@@ -111,9 +111,9 @@ int main(int argc, char* argv[]) {
     for ( int i=0 ; i < HIST_SIZE ; ++i )
     {
         std::cout
-            << std::right << std::setw(5) << std::setfill(' ') << i*FACTOR / 1000.0
+            << std::right << std::setw(4) << std::setfill(' ') << i*FACTOR / 1000.0
             << "-"
-            << std::right << std::setw(5) << std::setfill(' ') << (i+1)*FACTOR / 1000.0 - 0.001
+            << std::right << std::setw(4) << std::setfill(' ') << (i+1)*FACTOR / 1000.0 - 0.01
             << " s: ";
         std::cout << histogram[i] << "\n";
 /*
