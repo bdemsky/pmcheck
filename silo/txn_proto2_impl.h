@@ -708,11 +708,11 @@ txn_logger::pbuffer::can_hold_tid(uint64_t tid) const
 
 // protocol 2 - no global consistent TIDs
 template <typename Traits>
-class transaction_proto2 : public transaction<transaction_proto2, Traits>,
+class transaction_proto2 : public transaction<::transaction_proto2, Traits>,
                            private transaction_proto2_static {
 
-  friend class transaction<transaction_proto2, Traits>;
-  typedef transaction<transaction_proto2, Traits> super_type;
+  friend class transaction<::transaction_proto2, Traits>;
+  typedef transaction<::transaction_proto2, Traits> super_type;
 
 public:
 
@@ -728,7 +728,7 @@ public:
 
   transaction_proto2(uint64_t flags,
                      typename Traits::StringAllocator &sa)
-    : transaction<transaction_proto2, Traits>(flags, sa)
+    : transaction<::transaction_proto2, Traits>(flags, sa)
   {
     if (this->get_flags() & transaction_base::TXN_FLAG_READ_ONLY) {
       const uint64_t global_tick_ex =
@@ -963,7 +963,7 @@ public:
   void
   dump_debug_info() const
   {
-    transaction<transaction_proto2, Traits>::dump_debug_info();
+    transaction<::transaction_proto2, Traits>::dump_debug_info();
     if (this->is_snapshot())
       std::cerr << "  last_consistent_tid: "
         << g_proto_version_str(u_.last_consistent_tid) << std::endl;
