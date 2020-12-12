@@ -28,7 +28,7 @@ demo: demo.cpp ../gdax-orderbook.hpp \
 dependencies/libcds-2.3.2/build-release/bin/libcds.so: \
 		| dependencies/libcds-2.3.2
 	cd dependencies/libcds-2.3.2 ; if [ ! -d build-release ]; then mkdir build-release; fi
-	cd dependencies/libcds-2.3.2/build-release ; export PATH=$(PWD)/../..:$(PATH); CC=clang CXX=clang++ cmake -DCMAKE\_BUILD_TYPE=RELEASE ../
+	cd dependencies/libcds-2.3.2/build-release ; export PATH=$(PWD)/../..:/data/tsan11_build/cmake-3.6.2-Linux-x86_64/bin:$(PATH); CC=clang CXX=clang++ cmake -DCMAKE\_BUILD_TYPE=RELEASE ../
 	cd dependencies/libcds-2.3.2/build-release ; export PATH=$(PWD)/../..:$(PATH); make -j4
 
 clean:
