@@ -2,37 +2,31 @@
 
 EXE=$1
 TOTAL_RUN=500
-CDSLIB="/scratch/fuzzer/random-fuzzer"
+CDSLIB="/home/vagrant/c11tester"
 export LD_LIBRARY_PATH=${CDSLIB}
 export C11TESTER='-x1'
-
-#ERROR_FILE="data-structure.log"
-TASKSET=""
 
 COUNT_DATA_RACE=0
 COUNT_TIME=0
 
 for i in `seq 1 1 $TOTAL_RUN` ; do
-#  time ${TASKSET} $EXE &> $ERROR_FILE
-#  OUTPUT=$(< $ERROR_FILE)
-
-  OUTPUT="$(/usr/bin/time -f "time: %U %S" $EXE 2>&1)"
+  OUTPUT="$( { time $EXE; } 2>&1 )"
   RACE="$(echo "$OUTPUT" | grep "race")"
   if [ -n "$RACE" ] ; then
     ((++COUNT_DATA_RACE))
   fi
 
-  TIME="$(echo "$OUTPUT" | grep -o "time: .\... .\...")"
-  TIME_USER_S="$(echo "$TIME" | cut -d' ' -f2 | cut -d'.' -f1)"
-  TIME_USER_CS="$(echo "$TIME" | cut -d' ' -f2 | cut -d'.' -f2)"
-  TIME_SYSTEM_S="$(echo "$TIME" | cut -d' ' -f3 | cut -d'.' -f1)"
-  TIME_SYSTEM_CS="$(echo "$TIME" | cut -d' ' -f3 | cut -d'.' -f2)"
+  USER_TIME="$(echo "$OUTPUT" | grep -o "user..m.\....")"
+  USER_TIME_S="$(echo $USER_TIME | cut -d 'm' -f2 | cut -d '.' -f1)"
+  USER_TIME_MS="$(echo $USER_TIME | cut -d 'm' -f2 | cut -d '.' -f2)"
 
-  TIME_EXE=$((10#$TIME_USER_S * 1000 + 10#$TIME_USER_CS * 10 + 10#$TIME_SYSTEM_S * 1000 + 10#$TIME_SYSTEM_CS * 10))
+  SYS_TIME="$(echo "$OUTPUT" | grep -o "sys..m.\....")"
+  SYS_TIME_S="$(echo $SYS_TIME | cut -d 'm' -f2 | cut -d '.' -f1)"
+  SYS_TIME_MS="$(echo $SYS_TIME | cut -d 'm' -f2 | cut -d '.' -f2)"
+
+  TIME_EXE=$((10#$USER_TIME_S * 1000 + 10#$USER_TIME_MS + 10#$SYS_TIME_S * 1000 + 10#$SYS_TIME_MS))
   COUNT_TIME=$((COUNT_TIME + TIME_EXE))
 done
-
-#rm $ERROR_FILE
 
 AVG_DATA_RACE=$(echo "${COUNT_DATA_RACE} * 100 / ${TOTAL_RUN}" | bc -l | xargs printf "%.1f")
 AVG_TIME_INT=$(echo "${COUNT_TIME} / ${TOTAL_RUN} + 0.5" | bc -l | xargs printf "%.0f")
