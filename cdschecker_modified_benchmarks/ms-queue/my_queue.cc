@@ -1,4 +1,4 @@
-#include <threads.h>
+#include "cds_threads.h"
 #include <stdlib.h>
 #include "librace.h"
 #include "model-assert.h"

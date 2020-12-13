@@ -1,12 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <threads.h>
-//#include "cds_threads.h"
+#include "cds_threads.h"
 
 #include "my_queue.h"
 #include "model-assert.h"
-
-#define user_main main
 
 static int procs = 4;
 static queue_t *queue;
@@ -17,10 +14,10 @@ static int num_threads;
 
 int get_thread_num()
 {
-	thrd_t curr = thrd_current();
+	//thrd_t curr = thrd_current();
 	int i;
 	for (i = 0; i < num_threads; i++)
-		if (curr.priv == threads[i].priv)
+		if (std::this_thread::get_id() == threads[i].get_id())
 			return i;
 	MODEL_ASSERT(0);
 	return -1;
@@ -30,6 +27,7 @@ bool succ1, succ2;
 
 static void main_task(void *param)
 {
+	unsigned int val;
 	int pid = *((int *)param);
 	if (!pid) {
 		input[0] = 17;
@@ -53,7 +51,7 @@ int user_main(int argc, char **argv)
 	MODEL_ASSERT(queue);
 
 	num_threads = procs;
-	threads = (thrd_t *)malloc(num_threads * sizeof(thrd_t));
+	threads = (std::thread *)malloc(num_threads * sizeof(std::thread));
 	param = (int *)malloc(num_threads * sizeof(*param));
 	input = (unsigned *)calloc(num_threads, sizeof(*input));
 	output = (unsigned *)calloc(num_threads, sizeof(*output));
@@ -61,10 +59,11 @@ int user_main(int argc, char **argv)
 	init_queue(queue, num_threads);
 	for (i = 0; i < num_threads; i++) {
 		param[i] = i;
-		thrd_create(&threads[i], main_task, &param[i]);
+		//threads[i] = std::thread(main_task, &param[i]);
+                new (&threads[i])std::thread(main_task, &param[i]);
 	}
 	for (i = 0; i < num_threads; i++)
-		thrd_join(threads[i]);
+		threads[i].join();
 
 	for (i = 0; i < num_threads; i++) {
 		in_sum += input[i];
@@ -74,12 +73,11 @@ int user_main(int argc, char **argv)
 		printf("input[%d] = %u\n", i, input[i]);
 	for (i = 0; i < num_threads; i++)
 		printf("output[%d] = %u\n", i, output[i]);
-/*
 	if (succ1 && succ2)
 		MODEL_ASSERT(in_sum == out_sum);
 	else
-		MODEL_ASSERT(false);
-*/
+		MODEL_ASSERT (false);
+
 	free(param);
 	free(threads);
 	free(queue);
