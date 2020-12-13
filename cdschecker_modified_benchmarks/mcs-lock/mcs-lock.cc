@@ -11,7 +11,7 @@ static uint32_t shared;
 
 void threadA(void *arg)
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	mcs_mutex::guard g(mutex);
 	printf("store: %d\n", 17);
 	store_32(&shared, 17);
@@ -22,7 +22,7 @@ void threadA(void *arg)
 
 void threadB(void *arg)
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	mcs_mutex::guard g(mutex);
 	printf("load: %u\n", load_32(&shared));
 	mutex->unlock(&g);

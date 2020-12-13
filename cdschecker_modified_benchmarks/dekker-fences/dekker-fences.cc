@@ -19,7 +19,7 @@ uint32_t var = 0;
 
 void p0()
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
 	flag0.store(true,std::memory_order_relaxed);
 	//std::atomic_thread_fence(std::memory_order_seq_cst);
@@ -50,7 +50,7 @@ void p0()
 
 void p1()
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
 	flag1.store(true,std::memory_order_relaxed);
 	std::atomic_thread_fence(std::memory_order_seq_cst);

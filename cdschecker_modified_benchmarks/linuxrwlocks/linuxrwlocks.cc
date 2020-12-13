@@ -83,7 +83,7 @@ int shareddata;
 
 void a()
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	int i, rs;
 	for(i = 0; i < 2; i++) {
 		if ((i % 2) == 0) {

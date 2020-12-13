@@ -2,10 +2,6 @@
 
 EXE=$1
 TOTAL_RUN=500
-CDSLIB="/home/vagrant/c11tester"
-export LD_LIBRARY_PATH=${CDSLIB}
-export C11TESTER='-x1'
-
 COUNT_DATA_RACE=0
 COUNT_TIME=0
 

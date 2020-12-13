@@ -11,14 +11,14 @@ int var = 0;
 
 void threadA(void *arg)
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	store_32(&var, 1);
 	barr->wait();
 }
 
 void threadB(void *arg)
 {
-//	std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	barr->wait();
 	printf("var = %d\n", load_32(&var));
 }
