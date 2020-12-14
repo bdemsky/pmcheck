@@ -27,6 +27,7 @@ bool succ1, succ2;
 
 static void main_task(void *param)
 {
+	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	unsigned int val;
 	int pid = *((int *)param);
 	if (!pid) {
