@@ -29,9 +29,6 @@ sudo apt-get install libjemalloc-dev
 6. Edit the scripts clang, clang++, g++, gcc, and run with the appropriate
 paths for your system.
 
-7.  Each benchmark contains a script compile.sh to build the benchmark
-and run.sh to run the benchmark.
-
 Acknowledgments
 ---------------
 
