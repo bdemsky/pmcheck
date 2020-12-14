@@ -67,7 +67,7 @@ void * b(void *obj) {
 void * c(void *obj) {
 	int r1, r2;
 	lock->read(&r1, &r2);
-	assert(r1 == r2);
+	assert(r1 == r2);	// Should fail on buggy executions
 	return NULL;
 }
 

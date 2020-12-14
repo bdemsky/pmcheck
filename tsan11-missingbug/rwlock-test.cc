@@ -62,7 +62,7 @@ void * a(void *obj)
 			read_lock(&mylock);
 			int d1 = data1.load(memory_order_relaxed);
 			int d2 = data2.load(memory_order_relaxed);
-			assert(d1 == d2);
+			assert(d1 == d2);	// Should fail on buggy executions
 			read_unlock(&mylock);
 		} else {
 			write_lock(&mylock);
