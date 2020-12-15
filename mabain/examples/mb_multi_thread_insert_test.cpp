@@ -26,6 +26,8 @@
 
 #include "test_key.h"
 
+//#define ASSERT_TEST
+
 using namespace mabain;
 
 static int max_key = 100000;
@@ -45,8 +47,11 @@ static void* insert_thread(void *arg)
         curr_key = write_index.fetch_add(1, std::memory_order_release);
         kv = mkey.get_key(curr_key);
         if(curr_key < max_key) {
-			db_r->Add(kv, kv);
-//            assert(db_r->Add(kv, kv) == MBError::SUCCESS);
+#ifdef ASSERT_TEST
+            assert(db_r->Add(kv, kv) == MBError::SUCCESS);
+#else
+            db_r->Add(kv, kv);
+#endif
         } else {
             stop_processing = true;
             break;
@@ -80,9 +85,12 @@ static void Lookup()
 
     for(int i = 0; i < max_key; i++) {
         kv = mkey.get_key(i);
-		db_r->Find(kv, mbd);
-//        assert(db_r->Find(kv, mbd) == MBError::SUCCESS);
-//        assert(kv == std::string((const char *)mbd.buff, mbd.data_len));
+#ifdef ASSERT_TEST
+        assert(db_r->Find(kv, mbd) == MBError::SUCCESS);
+        assert(kv == std::string((const char *)mbd.buff, mbd.data_len));
+#else
+        db_r->Find(kv, mbd);
+#endif
     }
     db_r->Close();
     delete db_r;
