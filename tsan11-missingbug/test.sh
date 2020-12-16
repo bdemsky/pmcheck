@@ -25,4 +25,4 @@ done
 AVG_ASSERT=$(echo "${COUNT_ASSERT} * 100 / ${TOTAL_RUN}" | bc -l | xargs printf "%.1f")
 
 # -3 / log(1 - p) < n
-echo "Runs: $TOTAL_RUN | Assertions: $COUNT_ASSERT | Total time: ${COUNT_TIME}ms | Assert rate: ${AVG_ASSERT}%"
+echo "Runs: $TOTAL_RUN | Assertions: $COUNT_ASSERT | Total time: ${COUNT_TIME}ms | Assertion rate: ${AVG_ASSERT}%"
